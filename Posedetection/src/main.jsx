@@ -2,6 +2,7 @@ import { HandLandmarker, FilesetResolver, DrawingUtils } from "https://cdn.jsdel
 import kNear from './knear.js';
 
 
+
 const KNOWN_LABELS = ["peace", "wave", "fist", "thumbs_up", "snake"];
 const JSON_FILENAME = 'posedata.json';
 const K_VALUE = 3;
@@ -479,3 +480,5 @@ if (navigator.mediaDevices?.getUserMedia) {
     saveJsonButton.disabled = true; saveButtons.forEach(b => b.disabled = true);
     accuracyStatusElement.textContent = "Accuracy: N/A";
 }
+
+

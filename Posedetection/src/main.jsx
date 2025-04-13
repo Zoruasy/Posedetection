@@ -166,7 +166,7 @@ function trainModel() {
 
     if (trainedCount > 0) {
         isTrained = true;
-        trainStatusElement.textContent = `Model Trained (${trainedCount} samples).`;
+        trainStatusElement.textContent = `Model trained (${trainedCount} current samples).`;
         console.log(`KNN Training complete with ${trainedCount} valid samples.`);
         if (webcamRunning) {
             classifyButton.disabled = false;

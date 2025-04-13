@@ -134,7 +134,7 @@ function saveCurrentPose(label) {
 
 function trainModel() {
     if (collectedData.length < 5) {
-        alert(`Need at least 5 data points to train and test. Currently have ${collectedData.length}.`);
+        alert(`Ensure you have at least 5 data points to train and test the model. u currently have ${collectedData.length}. zzzz`);
         return;
     }
 

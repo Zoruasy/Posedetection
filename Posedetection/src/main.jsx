@@ -178,10 +178,10 @@ function trainModel() {
 
 
 function calculateAccuracy() {
-
     console.log(`Calculating accuracy on ${testSet.length} test samples.`);
     let correctPredictions = 0;
     const totalTestPoses = testSet.length;
+    const misclassified = [];
 
     for (const item of testSet) {
         if (item.points && item.label && Array.isArray(item.points) && item.points.length === REQUIRED_POINTS) {
@@ -192,8 +192,9 @@ function calculateAccuracy() {
                 console.log(`  Test Sample (${trueLabel}): Prediction = ${prediction}`);
                 if (prediction === trueLabel) {
                     correctPredictions++;
-                } else if (prediction === undefined){
-                    console.warn(`    -> Prediction was undefined for test sample:`, item);
+                } else {
+                    misclassified.push({ expected: trueLabel, predicted: prediction || 'undefined' });
+                    console.warn(`❌ Misclassified: expected ${trueLabel}, got ${prediction}`);
                 }
             } catch (error) {
                 console.error(`Error classifying test sample (${trueLabel}):`, error, item);
@@ -205,6 +206,15 @@ function calculateAccuracy() {
         const accuracy = (correctPredictions / totalTestPoses) * 100;
         console.log(`Accuracy Calculation Complete: ${correctPredictions} correct out of ${totalTestPoses} (${accuracy.toFixed(1)}%)`);
         accuracyStatusElement.textContent = `Accuracy: ${accuracy.toFixed(1)}% (${correctPredictions}/${totalTestPoses})`;
+
+        // 👇 Toon fouten in de UI
+        const misclassifiedDiv = document.getElementById("misclassifiedSamples");
+        if (misclassified.length > 0) {
+            const list = misclassified.map(m => `→ Predicted <b>${m.predicted}</b> instead of <b>${m.expected}</b>`).join("<br>");
+            misclassifiedDiv.innerHTML = `<b>Misclassified Samples:</b><br>${list}`;
+        } else {
+            misclassifiedDiv.innerHTML = `<b>No misclassifications 🎉</b>`;
+        }
     }
 }
 
@@ -417,6 +427,11 @@ async function predictWebcam() {
                 results = undefined;
             }
         }
+        const poseOutput = document.getElementById("poseDataOutput");
+        if (poseOutput && results && results.landmarks && results.landmarks.length > 0) {
+            const flattened = flattenLandmarks(results.landmarks[0]);
+            poseOutput.value = JSON.stringify(flattened, null, 2);
+        }
 
         canvasCtx.save();
         canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
@@ -435,6 +450,10 @@ async function predictWebcam() {
     }
 
     window.requestAnimationFrame(predictWebcam);
+}
+if (results && results.landmarks && results.landmarks.length > 0) {
+    const flattened = flattenLandmarks(results.landmarks[0]);
+    console.log("📌 Live Pose Data:", flattened);
 }
 
 

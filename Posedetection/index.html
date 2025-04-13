@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Britney's model training data wooooo</title>
+  <title>Britney's Gesture Recognition</title>
   <link rel="stylesheet" href="src/style.css">
   <script defer type="module" src="src/main.jsx"></script>
 </head>
@@ -12,46 +12,61 @@
 <body>
 
 <section>
-  <h1>Britney's camera training woooo</h1>
-  <p>Status: <span id="status">Initializing...</span></p>
+  <h1>Training data woooooo</h1>
 
-  <div class="button-group">
-    <button id="webcamButton" disabled>START WEBCAM</button>
-    <button id="classifyButton" disabled>TEST GESTURE</button>
+  <div class="status-bar">
+    <p>Status: <span id="status">Initializing...</span></p>
+    <div class="button-group">
+      <button id="webcamButton" disabled>START WEBCAM</button>
+      <button id="classifyButton" disabled>TEST GESTURE</button>
+    </div>
   </div>
 
-  <div class="data-collection-box">
-    <h3>Make one of the gestures below, then click the matching button to add it to the dataset.</h3>
-    <p>Make the gesture, then click the corresponding button to add it.</p>
-    <button class="saveButton" data-label="peace" disabled>Save Peace Sign ✌️</button>
-    <button class="saveButton" data-label="wave" disabled>Save Wave 👋</button>
-    <button class="saveButton" data-label="fist" disabled>Save Fist ✊</button>
-    <button class="saveButton" data-label="thumbs_up" disabled>Save Thumbs Up 👍</button>
-    <button class="saveButton" data-label="snake" disabled>Save Snake 🐍 </button>
-    <br>
-    <button id="trainButton" disabled>Train Model with Collected Data</button>
-    <span id="trainStatus"></span>
-    <br>
-    <button id="saveJsonButton" disabled>Save All Data to posedata.json</button>
-    <span id="accuracyStatus">Accuracy: N/A</span>
+  <div class="main-container">
+    <div class="video-column">
+      <div id="predictionResult">Prediction: ?</div>
 
+      <div class="videoView">
+        <div class="video-canvas-container">
+          <video id="webcam" muted autoplay playsinline></video>
+          <canvas id="output_canvas"></canvas>
+        </div>
+      </div>
+    </div>
 
-    <p class="sample-counts">Samples in Memory:
-      Peace: <span id="count-peace">0</span> |
-      Wave: <span id="count-wave">0</span> |
-      Fist: <span id="count-fist">0</span> |
-      Thumbs Up: <span id="count-thumbs_up">0</span> |
-      Snake: <span id="count-snake">0</span> |
-      <b>Total: <span id="count-total">0</span></b>
-    </p>
-  </div>
+    <div class="controls-column">
+      <div class="data-collection-box">
+        <h3>Make a gesture, then click the matching button</h3>
 
-  <div id="predictionResult">Prediction: ?</div>
+        <div class="gesture-buttons">
+          <button class="saveButton" data-label="peace" disabled>Peace Sign ✌️</button>
+          <button class="saveButton" data-label="wave" disabled>Wave 👋</button>
+          <button class="saveButton" data-label="fist" disabled>Fist ✊</button>
+          <button class="saveButton" data-label="thumbs_up" disabled>Thumbs Up 👍</button>
+          <button class="saveButton" data-label="snake" disabled>Snake 🐍</button>
+        </div>
 
-  <div class="videoView">
-    <div class="video-canvas-container">
-      <video id="webcam" muted autoplay playsinline></video>
-      <canvas id="output_canvas"></canvas>
+        <button id="trainButton" disabled>Train Model with Collected Data</button>
+
+        <div class="status-indicator">
+          <span id="trainStatus">Not trained yet</span>
+        </div>
+
+        <button id="saveJsonButton" disabled>Save All Data to posedata.json</button>
+
+        <div class="status-indicator">
+          <span id="accuracyStatus">Accuracy: N/A</span>
+        </div>
+
+        <div class="sample-counts">
+          <div>Peace: <span id="count-peace">0</span></div>
+          <div>Wave: <span id="count-wave">0</span></div>
+          <div>Fist: <span id="count-fist">0</span></div>
+          <div>Thumbs Up: <span id="count-thumbs_up">0</span></div>
+          <div>Snake: <span id="count-snake">0</span></div>
+          <div class="sample-total">Total: <span id="count-total">0</span></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
